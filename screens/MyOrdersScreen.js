@@ -9,6 +9,7 @@ import {
   Image,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { theme } from '../theme';
 
 const orderHistory = [
   {
@@ -17,9 +18,9 @@ const orderHistory = [
     status: 'Delivered',
     total: 450,
     items: [
-      { name: 'Organic Bananas', quantity: 2, price: 120, image: 'https://via.placeholder.com/60x60/000000/FFFFFF?text=B' },
-      { name: 'Fresh Spinach', quantity: 1, price: 80, image: 'https://via.placeholder.com/60x60/000000/FFFFFF?text=S' },
-      { name: 'Brown Rice', quantity: 1, price: 150, image: 'https://via.placeholder.com/60x60/000000/FFFFFF?text=R' },
+      { name: 'Organic Bananas', quantity: 2, price: 120, image: 'https://png.pngtree.com/png-clipart/20220716/ourmid/pngtree-banana-yellow-fruit-banana-skewers-png-image_5944324.png' },
+      { name: 'Fresh Spinach', quantity: 1, price: 80, image: 'https://media.istockphoto.com/id/1006196472/photo/bunch-of-spinach-leaves-on-isolated-white-background.jpg?s=612x612&w=0&k=20&c=OAIswtUC1aMNDwtMEFIaZv6fSIftsoAV-cgJZSGLJ7A=' },
+      { name: 'Brown Rice', quantity: 1, price: 150, image: 'https://media.istockphoto.com/id/1359845988/photo/uncooked-brown-rice.jpg?s=612x612&w=0&k=20&c=9yv0iZ0vvpLGf-RyQbyAMC_Cfe0OH-6izw1OBTWhUFQ=' },
     ],
   },
   {
@@ -28,7 +29,7 @@ const orderHistory = [
     status: 'Delivered',
     total: 320,
     items: [
-      { name: 'Organic Quinoa', quantity: 1, price: 350, image: 'https://via.placeholder.com/60x60/000000/FFFFFF?text=Q' },
+      { name: 'Organic Quinoa', quantity: 1, price: 350, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9aHBlXDsSPUFrlWB_jCZ6seL23CLh01ltNA&s' },
     ],
   },
   {
@@ -37,8 +38,8 @@ const orderHistory = [
     status: 'In Transit',
     total: 280,
     items: [
-      { name: 'Organic Apples', quantity: 1, price: 200, image: 'https://via.placeholder.com/60x60/000000/FFFFFF?text=A' },
-      { name: 'Organic Carrots', quantity: 1, price: 90, image: 'https://via.placeholder.com/60x60/000000/FFFFFF?text=C' },
+      { name: 'Organic Apples', quantity: 1, price: 200, image: 'https://www.orgpick.com/cdn/shop/articles/Apple_1024x1024.jpg?v=1547124407' },
+      { name: 'Organic Carrots', quantity: 1, price: 90, image: 'https://media.istockphoto.com/id/185275579/photo/bundles-of-organic-carrots-with-the-stems-still-attached.jpg?s=612x612&w=0&k=20&c=OIdIDUtDF9jxpCFnZlb7ld5tOj8pDMol1XIcfsHFlEk=' },
     ],
   },
   {
@@ -47,7 +48,7 @@ const orderHistory = [
     status: 'Processing',
     total: 180,
     items: [
-      { name: 'Fresh Spinach', quantity: 2, price: 80, image: 'https://via.placeholder.com/60x60/000000/FFFFFF?text=S' },
+      { name: 'Fresh Spinach', quantity: 2, price: 80, image: 'https://media.istockphoto.com/id/1006196472/photo/bunch-of-spinach-leaves-on-isolated-white-background.jpg?s=612x612&w=0&k=20&c=OAIswtUC1aMNDwtMEFIaZv6fSIftsoAV-cgJZSGLJ7A=' },
     ],
   },
 ];
@@ -59,10 +60,10 @@ export default function MyOrdersScreen({ navigation }) {
 
   const getStatusColor = (status) => {
     switch (status) {
-      case 'Delivered': return '#28a745';
-      case 'In Transit': return '#ffc107';
-      case 'Processing': return '#007bff';
-      default: return '#6c757d';
+      case 'Delivered': return theme.colors.status.delivered;
+      case 'In Transit': return theme.colors.status.inTransit;
+      case 'Processing': return theme.colors.status.processing;
+      default: return theme.colors.text.secondary;
     }
   };
 
@@ -117,7 +118,7 @@ export default function MyOrdersScreen({ navigation }) {
         <Text style={styles.totalAmount}>Total: ₹{order.total}</Text>
         <TouchableOpacity style={styles.viewDetailsButton}>
           <Text style={styles.viewDetailsText}>View Details</Text>
-          <Ionicons name="chevron-forward" size={16} color="#000000" />
+          <Ionicons name="chevron-forward" size={16} color={theme.colors.primary} />
         </TouchableOpacity>
       </View>
     </TouchableOpacity>
@@ -130,7 +131,7 @@ export default function MyOrdersScreen({ navigation }) {
           style={styles.backButton}
           onPress={() => navigation.goBack()}
         >
-          <Ionicons name="arrow-back" size={24} color="#333" />
+          <Ionicons name="arrow-back" size={24} color={theme.colors.text.primary} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>My Orders</Text>
         <View style={styles.placeholder} />
@@ -183,7 +184,7 @@ export default function MyOrdersScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: theme.colors.background,
   },
   header: {
     flexDirection: 'row',
@@ -207,9 +208,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#333',
+    fontSize: theme.fontSize.xl,
+    fontWeight: theme.fontWeight.bold,
+    color: theme.colors.text.primary,
   },
   placeholder: {
     width: 40,
@@ -223,24 +224,24 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   filterButton: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    marginRight: 12,
-    borderRadius: 18,
-    backgroundColor: '#FFFFFF',
+    paddingHorizontal: theme.spacing.md + 1,
+    paddingVertical: theme.spacing.sm - 2,
+    marginRight: theme.spacing.xs * 2.4,
+    borderRadius: theme.borderRadius.lg - 2,
+    backgroundColor: theme.colors.surface,
     borderWidth: 1,
-    borderColor: '#000000',
+    borderColor: theme.colors.primary,
   },
   filterButtonActive: {
-    backgroundColor: '#000000',
+    backgroundColor: theme.colors.primary,
   },
   filterText: {
-    fontSize: 13,
-    color: '#000000',
-    fontWeight: '600',
+    fontSize: theme.fontSize.sm - 1,
+    color: theme.colors.primary,
+    fontWeight: theme.fontWeight.semibold,
   },
   filterTextActive: {
-    color: '#FFFFFF',
+    color: theme.colors.text.inverse,
   },
   ordersContainer: {
     flex: 1,
@@ -330,9 +331,9 @@ const styles = StyleSheet.create({
     paddingTop: 15,
   },
   totalAmount: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#000000',
+    fontSize: theme.fontSize.md,
+    fontWeight: theme.fontWeight.bold,
+    color: theme.colors.primary,
   },
   viewDetailsButton: {
     flexDirection: 'row',
@@ -343,10 +344,10 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   viewDetailsText: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: '#000000',
-    marginRight: 5,
+    fontSize: theme.fontSize.xs,
+    fontWeight: theme.fontWeight.semibold,
+    color: theme.colors.primary,
+    marginRight: theme.spacing.xs,
   },
   emptyState: {
     flex: 1,

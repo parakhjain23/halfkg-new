@@ -9,49 +9,50 @@ import {
   Image,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { theme } from '../theme';
 
 const menuItems = [
   {
     id: 1,
     title: 'My Orders',
     icon: 'bag-outline',
-    color: '#000000',
-    backgroundColor: '#E6F3FF',
+    color: theme.colors.primary,
+    backgroundColor: theme.colors.menuIcons.orders,
   },
   {
     id: 2,
     title: 'Delivery Address',
     icon: 'location-outline',
-    color: '#000000',
-    backgroundColor: '#E8F5E8',
+    color: theme.colors.primary,
+    backgroundColor: theme.colors.menuIcons.address,
   },
   {
     id: 3,
     title: 'Payment Methods',
     icon: 'card-outline',
-    color: '#000000',
-    backgroundColor: '#FFE8F0',
+    color: theme.colors.primary,
+    backgroundColor: theme.colors.menuIcons.payment,
   },
   {
     id: 4,
     title: 'Notifications',
     icon: 'notifications-outline',
-    color: '#000000',
-    backgroundColor: '#F0E8FF',
+    color: theme.colors.primary,
+    backgroundColor: theme.colors.menuIcons.notifications,
   },
   {
     id: 5,
     title: 'Help & Support',
     icon: 'help-circle-outline',
-    color: '#000000',
-    backgroundColor: '#FFFACD',
+    color: theme.colors.primary,
+    backgroundColor: theme.colors.menuIcons.help,
   },
   {
     id: 6,
     title: 'About halfkg',
     icon: 'information-circle-outline',
-    color: '#000000',
-    backgroundColor: '#FFE8E0',
+    color: theme.colors.primary,
+    backgroundColor: theme.colors.menuIcons.about,
   },
 ];
 
@@ -113,7 +114,7 @@ export default function ProfileScreen({ navigation }) {
         </View>
 
         <TouchableOpacity style={styles.logoutButton}>
-          <Ionicons name="log-out-outline" size={20} color="#000000" />
+          <Ionicons name="log-out-outline" size={20} color={theme.colors.primary} />
           <Text style={styles.logoutButtonText}>Logout</Text>
         </TouchableOpacity>
 
@@ -129,7 +130,7 @@ export default function ProfileScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: theme.colors.background,
   },
   header: {
     alignItems: 'center',
@@ -151,29 +152,29 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50,
     borderWidth: 3,
-    borderColor: '#000000',
+    borderColor: theme.colors.primary,
   },
   userName: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 5,
+    fontSize: theme.fontSize.xxl,
+    fontWeight: theme.fontWeight.bold,
+    color: theme.colors.text.primary,
+    marginBottom: theme.spacing.xs,
   },
   userEmail: {
-    fontSize: 16,
-    color: '#666',
-    marginBottom: 20,
+    fontSize: theme.fontSize.md,
+    color: theme.colors.text.secondary,
+    marginBottom: theme.spacing.lg,
   },
   editButton: {
-    backgroundColor: '#000000',
-    paddingHorizontal: 25,
-    paddingVertical: 10,
-    borderRadius: 20,
+    backgroundColor: theme.colors.primary,
+    paddingHorizontal: theme.spacing.xl - 5,
+    paddingVertical: theme.spacing.sm,
+    borderRadius: theme.borderRadius.lg,
   },
   editButtonText: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#FFFFFF',
+    fontSize: theme.fontSize.sm,
+    fontWeight: theme.fontWeight.semibold,
+    color: theme.colors.text.inverse,
   },
   statsContainer: {
     flexDirection: 'row',
@@ -257,23 +258,23 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   logoutButtonText: {
-    fontSize: 16,
-    color: '#000000',
-    fontWeight: '600',
-    marginLeft: 10,
+    fontSize: theme.fontSize.md,
+    color: theme.colors.primary,
+    fontWeight: theme.fontWeight.semibold,
+    marginLeft: theme.spacing.sm,
   },
   footer: {
     alignItems: 'center',
     paddingBottom: 30,
   },
   footerText: {
-    fontSize: 16,
-    color: '#000000',
-    fontWeight: 'bold',
-    marginBottom: 5,
+    fontSize: theme.fontSize.md,
+    color: theme.colors.primary,
+    fontWeight: theme.fontWeight.bold,
+    marginBottom: theme.spacing.xs,
   },
   versionText: {
-    fontSize: 12,
-    color: '#999',
+    fontSize: theme.fontSize.xs,
+    color: theme.colors.text.tertiary,
   },
 });

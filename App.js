@@ -10,6 +10,8 @@ import ProductDetailScreen from './screens/ProductDetailScreen';
 import CartScreen from './screens/CartScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import MyOrdersScreen from './screens/MyOrdersScreen';
+import { theme } from './theme';
+import { CartProvider } from './context/CartContext';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -34,9 +36,10 @@ function ProfileStack() {
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <StatusBar style="dark" />
-      <Tab.Navigator
+    <CartProvider>
+      <NavigationContainer>
+        <StatusBar style="dark" />
+        <Tab.Navigator
         screenOptions={({ route }) => ({
           headerShown: false,
           tabBarIcon: ({ focused, color, size }) => {
@@ -52,19 +55,19 @@ export default function App() {
 
             return <Ionicons name={iconName} size={size} color={color} />;
           },
-          tabBarActiveTintColor: '#000000',
-          tabBarInactiveTintColor: '#999',
+          tabBarActiveTintColor: theme.colors.primary,
+          tabBarInactiveTintColor: theme.colors.text.tertiary,
           tabBarStyle: {
-            backgroundColor: '#FFFFFF',
+            backgroundColor: theme.colors.secondary,
             borderTopWidth: 1,
-            borderTopColor: '#E0E0E0',
+            borderTopColor: theme.colors.border.medium,
             height: 80,
-            paddingBottom: 20,
-            paddingTop: 10,
+            paddingBottom: theme.spacing.lg,
+            paddingTop: theme.spacing.sm,
           },
           tabBarLabelStyle: {
-            fontSize: 12,
-            fontWeight: '600',
+            fontSize: theme.fontSize.xs,
+            fontWeight: theme.fontWeight.semibold,
           },
         })}
       >
@@ -76,6 +79,7 @@ export default function App() {
         <Tab.Screen name="Cart" component={CartScreen} />
         <Tab.Screen name="Profile" component={ProfileStack} />
       </Tab.Navigator>
-    </NavigationContainer>
+      </NavigationContainer>
+    </CartProvider>
   );
 }

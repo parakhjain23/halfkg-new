@@ -9,14 +9,24 @@ import {
   SafeAreaView,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { theme } from '../theme';
+import { useCart } from '../context/CartContext';
 
 export default function ProductDetailScreen({ route, navigation }) {
   const { product } = route.params;
   const [quantity, setQuantity] = useState(1);
+  const { addToCart, getItemQuantity, updateQuantity: updateCartQuantity } = useCart();
+
+  const currentCartQuantity = getItemQuantity(product.id);
 
   const increaseQuantity = () => setQuantity(quantity + 1);
   const decreaseQuantity = () => {
     if (quantity > 1) setQuantity(quantity - 1);
+  };
+
+  const handleAddToCart = () => {
+    addToCart(product, quantity);
+    setQuantity(1); // Reset quantity selector after adding
   };
 
   return (
@@ -27,10 +37,10 @@ export default function ProductDetailScreen({ route, navigation }) {
             style={styles.backButton}
             onPress={() => navigation.goBack()}
           >
-            <Ionicons name="arrow-back" size={24} color="#333" />
+            <Ionicons name="arrow-back" size={24} color={theme.colors.text.primary} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.heartButton}>
-            <Ionicons name="heart-outline" size={24} color="#000000" />
+            <Ionicons name="heart-outline" size={24} color={theme.colors.primary} />
           </TouchableOpacity>
         </View>
 
@@ -59,19 +69,19 @@ export default function ProductDetailScreen({ route, navigation }) {
           <Text style={styles.benefitsTitle}>Health Benefits</Text>
           <View style={styles.benefitsList}>
             <View style={styles.benefitItem}>
-              <Ionicons name="checkmark-circle" size={16} color="#000000" />
+              <Ionicons name="checkmark-circle" size={16} color={theme.colors.primary} />
               <Text style={styles.benefitText}>Rich in vitamins and minerals</Text>
             </View>
             <View style={styles.benefitItem}>
-              <Ionicons name="checkmark-circle" size={16} color="#000000" />
+              <Ionicons name="checkmark-circle" size={16} color={theme.colors.primary} />
               <Text style={styles.benefitText}>100% organic certification</Text>
             </View>
             <View style={styles.benefitItem}>
-              <Ionicons name="checkmark-circle" size={16} color="#000000" />
+              <Ionicons name="checkmark-circle" size={16} color={theme.colors.primary} />
               <Text style={styles.benefitText}>Pesticide-free cultivation</Text>
             </View>
             <View style={styles.benefitItem}>
-              <Ionicons name="checkmark-circle" size={16} color="#000000" />
+              <Ionicons name="checkmark-circle" size={16} color={theme.colors.primary} />
               <Text style={styles.benefitText}>Farm-fresh quality</Text>
             </View>
           </View>
@@ -84,21 +94,20 @@ export default function ProductDetailScreen({ route, navigation }) {
             style={styles.quantityButton}
             onPress={decreaseQuantity}
           >
-            <Ionicons name="remove" size={20} color="#000000" />
+            <Ionicons name="remove" size={20} color={theme.colors.primary} />
           </TouchableOpacity>
           <Text style={styles.quantityText}>{quantity}</Text>
           <TouchableOpacity
             style={styles.quantityButton}
             onPress={increaseQuantity}
           >
-            <Ionicons name="add" size={20} color="#000000" />
+            <Ionicons name="add" size={20} color={theme.colors.primary} />
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity style={styles.addToCartButton}>
-          <Text style={styles.addToCartText}>Add to Cart</Text>
-          <Text style={styles.addToCartPrice}>
-            ₹{parseInt(product.price.slice(1)) * quantity}
+        <TouchableOpacity style={styles.addToCartButton} onPress={handleAddToCart}>
+          <Text style={styles.addToCartText}>
+            Add to Cart
           </Text>
         </TouchableOpacity>
       </View>
@@ -109,7 +118,7 @@ export default function ProductDetailScreen({ route, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: theme.colors.background,
   },
   header: {
     flexDirection: 'row',
@@ -122,28 +131,20 @@ const styles = StyleSheet.create({
   backButton: {
     width: 40,
     height: 40,
-    borderRadius: 20,
-    backgroundColor: '#FFFFFF',
+    borderRadius: theme.borderRadius.lg,
+    backgroundColor: theme.colors.surface,
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    ...theme.shadows.small,
   },
   heartButton: {
     width: 40,
     height: 40,
-    borderRadius: 20,
-    backgroundColor: '#FFFFFF',
+    borderRadius: theme.borderRadius.lg,
+    backgroundColor: theme.colors.surface,
     justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    ...theme.shadows.small,
   },
   productImage: {
     width: '100%',
@@ -152,32 +153,32 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   productInfo: {
-    paddingHorizontal: 20,
+    paddingHorizontal: theme.spacing.lg,
     paddingBottom: 120,
   },
   categoryBadge: {
-    backgroundColor: '#F0F0F0',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 15,
+    backgroundColor: theme.colors.border.light,
+    paddingHorizontal: theme.spacing.xs * 2.4,
+    paddingVertical: theme.spacing.xs * 1.2,
+    borderRadius: theme.borderRadius.md,
     alignSelf: 'flex-start',
-    marginBottom: 15,
+    marginBottom: theme.spacing.md,
   },
   categoryText: {
-    color: '#000000',
-    fontSize: 12,
-    fontWeight: '600',
+    color: theme.colors.primary,
+    fontSize: theme.fontSize.xs,
+    fontWeight: theme.fontWeight.semibold,
   },
   productName: {
     fontSize: 28,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 8,
+    fontWeight: theme.fontWeight.bold,
+    color: theme.colors.text.primary,
+    marginBottom: theme.spacing.sm * 0.8,
   },
   productWeight: {
-    fontSize: 16,
-    color: '#666',
-    marginBottom: 15,
+    fontSize: theme.fontSize.md,
+    color: theme.colors.text.secondary,
+    marginBottom: theme.spacing.md,
   },
   priceContainer: {
     flexDirection: 'row',
@@ -185,33 +186,33 @@ const styles = StyleSheet.create({
     marginBottom: 25,
   },
   productPrice: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#000000',
-    marginRight: 10,
+    fontSize: theme.fontSize.xxxl,
+    fontWeight: theme.fontWeight.bold,
+    color: theme.colors.primary,
+    marginRight: theme.spacing.sm,
   },
   originalPrice: {
-    fontSize: 18,
-    color: '#999',
+    fontSize: theme.fontSize.lg,
+    color: theme.colors.text.tertiary,
     textDecorationLine: 'line-through',
   },
   descriptionTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 10,
+    fontSize: theme.fontSize.xl,
+    fontWeight: theme.fontWeight.bold,
+    color: theme.colors.text.primary,
+    marginBottom: theme.spacing.sm,
   },
   description: {
-    fontSize: 16,
-    color: '#666',
+    fontSize: theme.fontSize.md,
+    color: theme.colors.text.secondary,
     lineHeight: 24,
-    marginBottom: 25,
+    marginBottom: theme.spacing.xl * 0.83,
   },
   benefitsTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 15,
+    fontSize: theme.fontSize.xl,
+    fontWeight: theme.fontWeight.bold,
+    color: theme.colors.text.primary,
+    marginBottom: theme.spacing.md,
   },
   benefitsList: {
     marginBottom: 20,
@@ -222,9 +223,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   benefitText: {
-    fontSize: 16,
-    color: '#666',
-    marginLeft: 10,
+    fontSize: theme.fontSize.md,
+    color: theme.colors.text.secondary,
+    marginLeft: theme.spacing.sm,
   },
   bottomContainer: {
     position: 'absolute',
@@ -267,22 +268,22 @@ const styles = StyleSheet.create({
   },
   addToCartButton: {
     flex: 1,
-    backgroundColor: '#000000',
-    borderRadius: 25,
-    paddingVertical: 15,
-    paddingHorizontal: 20,
+    backgroundColor: theme.colors.primary,
+    borderRadius: theme.borderRadius.xl,
+    paddingVertical: theme.spacing.md,
+    paddingHorizontal: theme.spacing.lg,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
   },
   addToCartText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
+    fontSize: theme.fontSize.lg,
+    fontWeight: theme.fontWeight.bold,
+    color: theme.colors.text.inverse,
   },
   addToCartPrice: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
+    fontSize: theme.fontSize.lg,
+    fontWeight: theme.fontWeight.bold,
+    color: theme.colors.text.inverse,
   },
 });

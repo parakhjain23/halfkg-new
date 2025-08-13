@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -7,56 +7,41 @@ import {
   TouchableOpacity,
   StyleSheet,
   SafeAreaView,
+  Alert,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-
-const initialCartItems = [
-  {
-    id: 1,
-    name: 'Organic Bananas',
-    price: 120,
-    image: 'https://via.placeholder.com/150x150/000000/FFFFFF?text=Bananas',
-    weight: '1kg',
-    quantity: 2,
-  },
-  {
-    id: 2,
-    name: 'Fresh Spinach',
-    price: 80,
-    image: 'https://via.placeholder.com/150x150/000000/FFFFFF?text=Spinach',
-    weight: '500g',
-    quantity: 1,
-  },
-  {
-    id: 3,
-    name: 'Organic Quinoa',
-    price: 350,
-    image: 'https://via.placeholder.com/150x150/000000/FFFFFF?text=Quinoa',
-    weight: '1kg',
-    quantity: 1,
-  },
-];
+import { theme } from '../theme';
+import { useCart } from '../context/CartContext';
 
 export default function CartScreen({ navigation }) {
-  const [cartItems, setCartItems] = useState(initialCartItems);
+  const { cartItems, updateQuantity, removeFromCart, clearCart, getTotalPrice } = useCart();
 
-  const updateQuantity = (id, change) => {
-    setCartItems(items =>
-      items.map(item =>
-        item.id === id
-          ? { ...item, quantity: Math.max(0, item.quantity + change) }
-          : item
-      ).filter(item => item.quantity > 0)
+  const delivery = 50;
+  const subtotal = getTotalPrice();
+  const total = subtotal + delivery;
+
+  const handleCheckout = () => {
+    Alert.alert(
+      'Order Placed Successfully! 🎉',
+      `Thank you for your order!\n\nOrder Total: ₹${total}\nEstimated Delivery: 2-3 days\n\nYour organic products are on their way!`,
+      [
+        {
+          text: 'Continue Shopping',
+          onPress: () => {
+            clearCart();
+            navigation.navigate('HomeTab');
+          },
+        },
+        {
+          text: 'View Orders',
+          onPress: () => {
+            clearCart();
+            navigation.navigate('Profile', { screen: 'MyOrders' });
+          },
+        }
+      ]
     );
   };
-
-  const removeItem = (id) => {
-    setCartItems(items => items.filter(item => item.id !== id));
-  };
-
-  const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  const delivery = 50;
-  const total = subtotal + delivery;
 
   const CartItem = ({ item }) => (
     <View style={styles.cartItem}>
@@ -71,21 +56,21 @@ export default function CartScreen({ navigation }) {
           style={styles.quantityButton}
           onPress={() => updateQuantity(item.id, -1)}
         >
-          <Ionicons name="remove" size={16} color="#000000" />
+          <Ionicons name="remove" size={16} color={theme.colors.primary} />
         </TouchableOpacity>
         <Text style={styles.quantity}>{item.quantity}</Text>
         <TouchableOpacity
           style={styles.quantityButton}
           onPress={() => updateQuantity(item.id, 1)}
         >
-          <Ionicons name="add" size={16} color="#000000" />
+          <Ionicons name="add" size={16} color={theme.colors.primary} />
         </TouchableOpacity>
       </View>
       <TouchableOpacity
         style={styles.removeButton}
-        onPress={() => removeItem(item.id)}
+        onPress={() => removeFromCart(item.id)}
       >
-        <Ionicons name="trash-outline" size={20} color="#000000" />
+        <Ionicons name="trash-outline" size={20} color={theme.colors.primary} />
       </TouchableOpacity>
     </View>
   );
@@ -138,7 +123,7 @@ export default function CartScreen({ navigation }) {
               <Text style={styles.totalValue}>₹{total}</Text>
             </View>
 
-            <TouchableOpacity style={styles.checkoutButton}>
+            <TouchableOpacity style={styles.checkoutButton} onPress={handleCheckout}>
               <Text style={styles.checkoutButtonText}>Proceed to Checkout</Text>
               <Ionicons name="arrow-forward" size={20} color="#FFFFFF" />
             </TouchableOpacity>
@@ -152,7 +137,7 @@ export default function CartScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: theme.colors.background,
   },
   header: {
     flexDirection: 'row',
@@ -222,9 +207,9 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   itemPrice: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#000000',
+    fontSize: theme.fontSize.md,
+    fontWeight: theme.fontWeight.bold,
+    color: theme.colors.primary,
   },
   quantityControls: {
     flexDirection: 'row',
@@ -272,15 +257,15 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   shopButton: {
-    backgroundColor: '#000000',
-    paddingHorizontal: 30,
-    paddingVertical: 15,
-    borderRadius: 25,
+    backgroundColor: theme.colors.primary,
+    paddingHorizontal: theme.spacing.xl,
+    paddingVertical: theme.spacing.md,
+    borderRadius: theme.borderRadius.xl,
   },
   shopButtonText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
+    fontSize: theme.fontSize.md,
+    fontWeight: theme.fontWeight.bold,
+    color: theme.colors.text.inverse,
   },
   summaryContainer: {
     backgroundColor: '#FFFFFF',
@@ -320,23 +305,23 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   totalValue: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#000000',
+    fontSize: theme.fontSize.xl,
+    fontWeight: theme.fontWeight.bold,
+    color: theme.colors.primary,
   },
   checkoutButton: {
-    backgroundColor: '#000000',
+    backgroundColor: theme.colors.primary,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 18,
-    borderRadius: 25,
-    marginTop: 20,
+    paddingVertical: theme.spacing.lg - 2,
+    borderRadius: theme.borderRadius.xl,
+    marginTop: theme.spacing.lg,
   },
   checkoutButtonText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
-    marginRight: 10,
+    fontSize: theme.fontSize.lg,
+    fontWeight: theme.fontWeight.bold,
+    color: theme.colors.text.inverse,
+    marginRight: theme.spacing.sm,
   },
 });
