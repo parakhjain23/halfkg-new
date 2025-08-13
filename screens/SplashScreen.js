@@ -80,7 +80,7 @@ export default function SplashScreen({ onFinish }) {
             <View style={styles.logoCircle}>
               <Text style={styles.logoIcon}>🥬</Text>
             </View>
-            <Text style={styles.logoText}>halfkg</Text>
+            <Text style={styles.logoText}>Yatrikart</Text>
           </Animated.View>
 
           {/* Subtitle */}

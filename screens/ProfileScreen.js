@@ -49,7 +49,7 @@ const menuItems = [
   },
   {
     id: 6,
-    title: 'About halfkg',
+    title: 'About Yatrikart',
     icon: 'information-circle-outline',
     color: theme.colors.primary,
     backgroundColor: theme.colors.menuIcons.about,
@@ -84,7 +84,7 @@ export default function ProfileScreen({ navigation }) {
             />
           </View>
           <Text style={styles.userName}>Parakh Jain</Text>
-          <Text style={styles.userEmail}>parakh@halfkg.com</Text>
+          <Text style={styles.userEmail}>parakh@Yatrikart.com</Text>
           <TouchableOpacity style={styles.editButton}>
             <Text style={styles.editButtonText}>Edit Profile</Text>
           </TouchableOpacity>
@@ -119,7 +119,7 @@ export default function ProfileScreen({ navigation }) {
         </TouchableOpacity>
 
         <View style={styles.footer}>
-          <Text style={styles.footerText}>halfkg Organic Store</Text>
+          <Text style={styles.footerText}>Yatrikart Organic Store</Text>
           <Text style={styles.versionText}>Version 1.0.0</Text>
         </View>
       </ScrollView>

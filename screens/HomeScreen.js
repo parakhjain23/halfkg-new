@@ -142,7 +142,7 @@ export default function HomeScreen({ navigation }) {
         >
           <View style={styles.headerOverlay}>
             <View style={styles.headerContent}>
-              <Text style={styles.headerTitle}>halfkg</Text>
+              <Text style={styles.headerTitle}>Yatrikart</Text>
               <Text style={styles.headerSubtitle}>Organic Store</Text>
               <Text style={styles.headerTagline}>🌱 Fresh • Organic • Sustainable</Text>
               
