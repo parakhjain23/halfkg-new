@@ -8,6 +8,7 @@ import {
   StyleSheet,
   SafeAreaView,
   TextInput,
+  ImageBackground,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../theme';
@@ -134,10 +135,27 @@ export default function HomeScreen({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.header}>
-          <Text style={styles.headerTitle}>halfkg</Text>
-          <Text style={styles.headerSubtitle}>Organic Store</Text>
-        </View>
+        <ImageBackground 
+          source={{ uri: 'https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80' }}
+          style={styles.header}
+          imageStyle={styles.headerImage}
+        >
+          <View style={styles.headerOverlay}>
+            <View style={styles.headerContent}>
+              <Text style={styles.headerTitle}>halfkg</Text>
+              <Text style={styles.headerSubtitle}>Organic Store</Text>
+              <Text style={styles.headerTagline}>🌱 Fresh • Organic • Sustainable</Text>
+              
+              <View style={styles.offerContainer}>
+                <View style={styles.offerBadge}>
+                  <Ionicons name="flash" size={16} color="#FFD700" />
+                  <Text style={styles.offerText}>50% OFF</Text>
+                </View>
+                <Text style={styles.offerDescription}>On your first order above ₹500</Text>
+              </View>
+            </View>
+          </View>
+        </ImageBackground>
 
         <View style={styles.searchContainer}>
           <Ionicons name="search" size={20} color={theme.colors.primary} style={styles.searchIcon} />
@@ -193,25 +211,82 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.background,
   },
   header: {
-    paddingHorizontal: theme.spacing.lg,
-    paddingTop: theme.spacing.lg,
-    paddingBottom: theme.spacing.xl,
-    backgroundColor: theme.colors.primary,
+    height: 200,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  headerImage: {
     borderBottomLeftRadius: theme.borderRadius.xl,
     borderBottomRightRadius: theme.borderRadius.xl,
   },
+  headerOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    borderBottomLeftRadius: theme.borderRadius.xl,
+    borderBottomRightRadius: theme.borderRadius.xl,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  headerContent: {
+    alignItems: 'center',
+    paddingHorizontal: theme.spacing.lg,
+  },
   headerTitle: {
-    fontSize: theme.fontSize.xxxl,
+    fontSize: theme.fontSize.xxxl + 8,
     fontWeight: theme.fontWeight.bold,
     color: theme.colors.text.inverse,
     textAlign: 'center',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 10,
   },
   headerSubtitle: {
-    fontSize: theme.fontSize.md,
+    fontSize: theme.fontSize.lg,
     color: theme.colors.text.inverse,
     textAlign: 'center',
-    opacity: 0.9,
     marginTop: theme.spacing.xs,
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 10,
+  },
+  headerTagline: {
+    fontSize: theme.fontSize.sm,
+    color: theme.colors.text.inverse,
+    textAlign: 'center',
+    marginTop: theme.spacing.xs,
+    opacity: 0.9,
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 10,
+  },
+  offerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: theme.spacing.md,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    paddingHorizontal: theme.spacing.md,
+    paddingVertical: theme.spacing.xs,
+    borderRadius: theme.borderRadius.lg,
+  },
+  offerBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FF6B6B',
+    paddingHorizontal: theme.spacing.sm,
+    paddingVertical: 4,
+    borderRadius: theme.borderRadius.sm,
+    marginRight: theme.spacing.sm,
+  },
+  offerText: {
+    fontSize: theme.fontSize.xs,
+    fontWeight: theme.fontWeight.bold,
+    color: theme.colors.text.inverse,
+    marginLeft: 4,
+  },
+  offerDescription: {
+    fontSize: theme.fontSize.xs,
+    color: theme.colors.text.primary,
+    fontWeight: theme.fontWeight.medium,
   },
   searchContainer: {
     flexDirection: 'row',

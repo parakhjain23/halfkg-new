@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   SafeAreaView,
+  Alert,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../theme';
@@ -27,6 +28,22 @@ export default function ProductDetailScreen({ route, navigation }) {
   const handleAddToCart = () => {
     addToCart(product, quantity);
     setQuantity(1); // Reset quantity selector after adding
+    
+    // Show success feedback
+    Alert.alert(
+      'Added to Cart! ✅',
+      `${quantity} ${product.name} ${quantity > 1 ? 'items have' : 'item has'} been added to your cart.`,
+      [
+        {
+          text: 'Continue Shopping',
+          style: 'cancel',
+        },
+        {
+          text: 'View Cart',
+          onPress: () => navigation.navigate('Cart'),
+        }
+      ]
+    );
   };
 
   return (
